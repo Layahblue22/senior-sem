@@ -10,15 +10,15 @@ import {
 
 const items = [
   {
-    image: require("../assets/images/shopping-bag.png"),
+    image: require("../../assets/images/shopping-bag.png"),
     text: "Pick-up",
   },
   {
-    image: require("../assets/images/fast-food.png"),
+    image: require("../../assets/images/fast-food.png"),
     text: "Fastt Food",
   },
   {
-    image: require("../assets/images/coffee.png"),
+    image: require("../../assets/images/coffee.png"),
     text: "Coffee",
   },
 ];
@@ -43,3 +43,5 @@ export default function App() {
     </ScrollView>
   );
 }
+
+//
