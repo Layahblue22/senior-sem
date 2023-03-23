@@ -1,3 +1,4 @@
+
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
@@ -19,8 +20,9 @@ export default function Home({ navigation }) {
   const [city, setCity] = useState("Frederick");
   const [activeTab, setActiveTab] = useState("Delivery");
   const [c_reviews, setc_reviews] = useState("Reviews");
+  const [category, setCategory] = useState("Chinese");
   const getRestaurantsFromYelp = () => {
-    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
+    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&categories=mexican&location=${city}`;
 
     const apiOptions = {
       headers: {
@@ -48,11 +50,12 @@ export default function Home({ navigation }) {
         <SearchBar cityHandler={setCity} />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Categories />
+        <Categories categoryHandler={setCategory} />
         <RestaurantItems
           restaurantData={restaurantData}
           navigation={navigation}
         />
+        <MenuItems c_reviews={c_reviews}/>
       </ScrollView>
       <Divider width={1} />
       <BottomTabs />

@@ -8,70 +8,38 @@ import {
   ScrollView,
 } from "react-native";
 import { Divider } from "react-native-elements";
+import BouncyCheckBox from "react-native-bouncy-checkbox";
 
 const food = [
-  {
-    title: "Thai Chicken",
-    description: "Thai chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/15797986/pexels-photo-15797986.jpeg?auto=compress&cs=tinysrgb&w=600",
-  },
-  {
-    title: "Pad Thai",
-    description:
-      "Thai noodles with chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/12481161/pexels-photo-12481161.jpeg",
-  },
-  {
-    title: "Pad See Ew",
-    description:
-      "Thai noodles with chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/13869881/pexels-photo-13869881.jpeg?auto=compress&cs=tinysrgb&w=600",
-  },
-  {
-    title: "Pad Kee Mao",
-    description:
-      "Thai noodles with chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://www.platingsandpairings.com/wp-content/uploads/2018/06/pad-kee-mao-recipe-7-scaled.jpg",
-  },
-  {
-    title: "Pad Woon Sen",
-    description:
-      "Thai noodles with chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    title: "Pad Kra Pao",
-    description:
-      "Thai noodles with chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    title: "lasagna",
-    description: "with butter lettuce, tomato and sauce bechamel",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    title: "Pad Kra Pao",
-    description:
-      "Thai noodles with chicken, shrimp, egg, bean sprouts, and peanuts",
-    price: "$9.99",
-    image:
-      "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
+
+      {
+        url: "https://www.yelp.com/biz/north-india-restaurant-san-francisco?hrid=AeVAkQgueu6JtYtU4r3Jrg",
+        text: "This place is really pretty and I really love this place. My friends and me came here yesterday. The food is superb, the service is impeccable (mostly) and...",
+        user: {
+          image_url: "https://media.istockphoto.com/id/1384357158/photo/portrait-of-a-beautiful-mexican-woman.jpg?b=1&s=170667a&w=0&k=20&c=sNzHC0E61lT6LYJ9XPmnUTGhqLxDtusrxbm8YcP1Qic=",
+          name: "Hoang V."
+        },
+        rating: 5
+      },
+      {
+        url: "https://www.yelp.com/biz/north-india-restaurant-san-francisco?hrid=6tsz9tl7HAiOcYj_fGrsCg",
+        text: "Went there for the first time Saturday Evening,everything is great, the ambiance is outstanding for this location, tried the mulliatawny soup for starters...",
+        user: {
+          image_url: "http://s3-media2.fl.yelpcdn.com/photo/O1ZuPKBhwxHAT60XZksWHQ/o.jpg",
+          name: "Winston P."
+        },
+        rating: 5
+      },
+      {
+        url: "https://www.yelp.com/biz/north-india-restaurant-san-francisco?hrid=3b3-zDKfomV-1qR3Z0jmQw",
+        text: "I came in here for the $9.95 lunch buffet the day after it opened.  It is the old Tara space and I like how it has been opened up to accommodate many more...",
+        user: {
+          image_url: "http://s3-media1.fl.yelpcdn.com/photo/bQRonQWaxInb7eKAtMjf3A/o.jpg",
+          name: "Ronita J."
+        },
+        rating: 4
+      }
+  
 ];
 
 const styles = StyleSheet.create({
@@ -104,8 +72,8 @@ export default function MenuItems() {
       {food.map((food, index) => (
         <View key={index}>
           <View style={styles.menuItemStyle}>
+          <FoodImage food={food} />
             <FoodInfo food={food} />
-            <FoodImage food={food} />
           </View>
           <Divider
             width={0.7}
@@ -124,10 +92,9 @@ export default function MenuItems() {
 // description is a property of food
 // price is a property of food
 const FoodInfo = (props) => (
-  <View style={{ width: 240, justifyContent: "space-evenly" }}>
-    <Text style={styles.titleStyle}>{props.food.title}</Text>
-    <Text>{props.food.description}</Text>
-    <Text>{props.food.price}</Text>
+  <View style={{ width: 240, justifyContent: "space-evenly", flexDirection:'column'}}>
+    <Text style={{fontWeight: 'bold'}}>{props.food.user.name}</Text>
+    <Text>{props.food.text}</Text>
   </View>
 );
 
@@ -140,10 +107,11 @@ const FoodInfo = (props) => (
 const FoodImage = (props) => (
   <View>
     <Image
-      source={{ uri: props.food.image }}
-      style={{ width: 100, height: 100, borderRadius: 8 }}
+      source={{ uri: props.food.user.image_url }}
+      style={{ width: 70, height: 70, borderRadius: 8, }}
     />
   </View>
+  
 );
 
 //
