@@ -36,6 +36,7 @@ export default function RestaurantItems({ navigation, ...props }) {
     <>
       {props.restaurantData.map((restaurant, index) => (
         <TouchableOpacity
+          key={index}
           activeOpacity={1}
           style={{ marginBottom: 30 }}
           onPress={() =>
@@ -46,11 +47,13 @@ export default function RestaurantItems({ navigation, ...props }) {
               reviews: restaurant.review_count,
               rating: restaurant.rating,
               categories: restaurant.categories,
+              phone: restaurant.phone,
+              isClosed: restaurant.is_closed,
+              id: restaurant.id
             })
           }
         >
           <View
-            key={index}
             style={{ marginTop: 10, padding: 15, backgroundColor: "white" }}
           >
             <RestaurantImage image={restaurant.image_url} />
@@ -70,8 +73,8 @@ const RestaurantImage = (props) => (
       }}
       style={{ width: "100%", height: 180 }}
     />
-    <TouchableOpacity style={{ position: "absolute", right: 20 }}>
-      <MaterialCommunityIcons name="heart-outline" size={24} color={"white"} />
+    <TouchableOpacity  style={{ position: "absolute", right: 20, top: 12, }}>
+      <MaterialCommunityIcons {...props} fill="red" name="heart-outline" size={34} color={"white"} />
     </TouchableOpacity>
   </>
 );
