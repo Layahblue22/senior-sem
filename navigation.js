@@ -9,6 +9,9 @@ import Asian from "./screens/Categories/Asian"
 import Italian from "./screens/Categories/Italian"
 import Healthy from "./screens/Categories/Healthy"
 import FastFood from "./screens/Categories/FastFood"
+import LoginScreen from './screens/LoginScreen'
+import SignupScreen from './screens/SignupScreen'
+import Favorites from './screens/Favorites'
 
 export default function RootNavigation() {
   const Stack = createStackNavigator();
@@ -18,7 +21,9 @@ export default function RootNavigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+      <Stack.Navigator initialRouteName="LoginScreen" screenOptions={screenOptions}>
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="CategoriesScreen" component={CategoriesScreen}/>
         <Stack.Screen name="RestaurantsDetail" component={RestaurantsDetail} />
@@ -27,6 +32,7 @@ export default function RootNavigation() {
         <Stack.Screen name="Italian" component={Italian}/>
         <Stack.Screen name="Healthy" component={Healthy}/>
         <Stack.Screen name="FastFood" component={FastFood}/>
+        <Stack.Screen name="Favorites" component={Favorites}/>
 
 
       </Stack.Navigator>

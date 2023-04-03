@@ -61,12 +61,13 @@ const items = [
     image: require("../../assets/images/cutlery.png"),
   },
   {
-    image: require("../../assets/images/heart.png"),
-  },
-  {
     image: require("../../assets/images/user.png"),
   },
 ];
+
+const likes = {
+  image: require("../../assets/images/heart.png"),
+}
 export default function App() {
   const navigation = useNavigation();
   return (
@@ -90,6 +91,16 @@ export default function App() {
         </View>
       ))}
       {/* Loop starts*/}
+      <TouchableOpacity onPress={() => navigation.navigate("Favorites")} >
+        <View key={likes}>
+              <Image source={likes.image} style={{
+                width: 50,
+                height: 35,
+                resizeMode: "contain",
+                marginTop: 10
+              }}/>
+          </View>
+        </TouchableOpacity>
     </ScrollView>
   );
 }

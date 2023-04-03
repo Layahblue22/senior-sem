@@ -17,10 +17,10 @@ const YELP_API_KEY =
 export default function Home({ navigation }) {
   const [restaurantData, setrestaurantData] = useState(localRestaurant);
   const [city, setCity] = useState("Frederick");
+  const [id, setId] = useState("H1bkpo90eCy_gQxKVPV04g");
   const [activeTab, setActiveTab] = useState("Delivery");
-  const [c_reviews, setc_reviews] = useState("Reviews");
   const getRestaurantsFromYelp = () => {
-    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
+    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}/${id}/reviews`;
 
     const apiOptions = {
       headers: {

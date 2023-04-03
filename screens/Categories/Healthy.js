@@ -22,7 +22,7 @@ export default function Healthy({ navigation }) {
   const [c_reviews, setc_reviews] = useState("Reviews");
   const [category, setCategory] = useState("Chinese");
   const getRestaurantsFromYelp = () => {
-    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&categories=chinese&location=${city}`;
+    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&categories=salad&location=${city}`;
 
     const apiOptions = {
       headers: {
