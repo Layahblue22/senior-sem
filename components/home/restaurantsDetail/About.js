@@ -12,17 +12,14 @@ const image =
     
     const description = `${formattedCategories}  ${
       price ? " • " + price : ""
-    } • 🎫  • ${rating} ⭐ ${rating} `; // template literal to format the description string to be displayed in the UI to the user so that it looks like the description in the About component below
+    } • • ${rating} ⭐ • Open  🟢`; // template literal to format the description string to be displayed in the UI to the user so that it looks like the description in the About component below
     const contact = `Phone:${phone} `;
-    const open = isClosed? 'Open 🟢' : 'Closed 🔴';
-    const rReviews = `review:${r_Reviews} `;
   return (
     <View>
       <RestaurantsImage image={image} />
       <RestaurantsName name={name} />
       <RestaurantsDescription description={description} />
       <RestaurantsDescription description={contact} />
-      <RestaurantsDescription description={open} />
     </View>
   );
 }

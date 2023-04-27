@@ -2,6 +2,14 @@ import React from "react";
 import {View, Text, TouchableOpacity} from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
+import {signIn,createUser,createReview} from "../../../firebase.js"
+
+
+function testFunc(){
+signIn("ahonablue@georgestreetinc.com","Aalayah4265~~")
+//reateReview({id:2},{stars:4,description:"rararqr"})
+
+}
 export default function WriteReview(){
     const navigation = useNavigation();
     return(
@@ -30,7 +38,7 @@ export default function WriteReview(){
                 width:300,
                 position: "relative",
             }}
-            onPress={() => navigation.navigate("WriteReviewScreen") }
+            onPress={() => testFunc()}//navigation.navigate("WriteReviewScreen") }
             >
             <Text style={{color:"white", fontSize: 20,}}>Write Review</Text>
             </TouchableOpacity>

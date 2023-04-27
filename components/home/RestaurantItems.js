@@ -6,30 +6,19 @@ import {
   View,
   Image,
   ScrollView,
-  TouchableOpacity,
+  TouchableOpacity, Pressable
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import React, { useEffect, useState } from "react";
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export const localRestaurant = [
-  {
-    name: "Pistarros",
-    image_url:
-      "https://photos.bringfido.com/restaurants/5/7/3/19375/19375_54085.jpg?size=tile&density=2x",
-    categories: ["Cafe", "Bar"],
-    price: "$",
-    reviews: 1244,
-    rating: 3.7,
-  },
-  {
-    name: "Firestone",
-    image_url:
-      "http://downtownfrederick.org/wp-content/uploads/business_firestones-culinary-tavern.jpg",
-    categories: ["Cafe", "Bar"],
-    price: "$$$",
-    reviews: 2244,
-    rating: 4.7,
-  },
+
 ];
+
 
 export default function RestaurantItems({ navigation, ...props }) {
   return (
@@ -49,7 +38,8 @@ export default function RestaurantItems({ navigation, ...props }) {
               categories: restaurant.categories,
               phone: restaurant.phone,
               isClosed: restaurant.is_closed,
-              id: restaurant.id
+              id: restaurant.id,
+              reviewss: restaurant.id.reviews,
             })
           }
         >
@@ -57,6 +47,7 @@ export default function RestaurantItems({ navigation, ...props }) {
             style={{ marginTop: 10, padding: 15, backgroundColor: "white" }}
           >
             <RestaurantImage image={restaurant.image_url} />
+            <LikeButton/>
             <RestaurantInfo name={restaurant.name} rating={restaurant.rating} />
           </View>
         </TouchableOpacity>
@@ -73,11 +64,25 @@ const RestaurantImage = (props) => (
       }}
       style={{ width: "100%", height: 180 }}
     />
-    <TouchableOpacity  style={{ position: "absolute", right: 20, top: 12, }}>
-      <MaterialCommunityIcons {...props} fill="red" name="heart-outline" size={34} color={"white"} />
-    </TouchableOpacity>
   </>
 );
+
+const LikeButton = (props) => {
+  const [liked, setLiked] = useState(false);
+
+  return (
+    
+    <View style ={{left: 320, bottom: 180,}}>
+    <Pressable onPress={() => setLiked((isLiked) => !isLiked)}>
+      <MaterialCommunityIcons
+        name={liked ? "heart" : "heart-outline"}
+        size={40}
+        color={liked ? "red" : "white"}
+      />
+    </Pressable>
+    </View>
+  );
+};
 
 const RestaurantInfo = (props) => (
   <View
@@ -94,9 +99,9 @@ const RestaurantInfo = (props) => (
     </View>
     <View
       style={{
-        backgroundColor: "#eee",
+        backgroundColor: "#F48400",
         height: 30,
-        width: 30,
+        width: 40,
         alignItems: "center",
         borderRadius: 15,
         justifyContent: "center",
