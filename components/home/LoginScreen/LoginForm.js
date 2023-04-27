@@ -1,112 +1,154 @@
-import React from 'react'
-import {View, Text, StyleSheet, Pressable, Alert,} from 'react-native'
-import { Button } from 'react-native-elements/dist/buttons/Button'
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import {Formik} from 'formik'
-import * as Yup from 'yup'
-import Validator from 'email-validator'
-import {signIn} from '../../../firebase'
-import Singleton from '../../../singleton.js'
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableOpacityBase,
+} from "react-native";
+import { db, auth } from "../../../firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { UserSingleton } from "../../../singleton";
+import { useNavigation } from "@react-navigation/native";
+import { doc, setDoc, getDoc } from "@firebase/firestore";
 
-function handleSignIn(email,password){
-    let succ = signIn(email,password)
-    const singleton = Singleton.getInstance();
-    var user = singleton.getUserInfo();
-    console.log(user)
-    
+async function getInfo(userCredentials) {
+  const docRef = doc(db, "Profiles", userCredentials.user.uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data;
 }
+const LoginForm = () => {
+  var navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        //add document into collection
+        setDoc(doc(db, "Profiles", userCredentials.user.uid), {
+          uid: userCredentials.user.uid,
+          email: userCredentials.user.email,
+        });
 
-const LoginForm = ({navigation}) => {
-    return(
-        <View style={styles.wrapper}>
-            <View 
-            style={styles.inputField}>
-           <TextInput
-            placeholderTextColor='#444'
-            placeholder="Email"
-            autoCapitalize='none'
-            keyboardType='email-address'
-            textContentType='emailAddress'
-           />
-            </View>
-            <View 
-            style={styles.inputField}
-            >
-           <TextInput
-            placeholderTextColor='#444'
-            placeholder="Password"
-            autoCapitalize='none'
-            autoCorrect={false}
-            secureTextEntry={true}
-           />
-          </View>
-          <TouchableOpacity>
-          <View style={{alignItems: 'flex-end', marginBottom: 30}}>
-              <Text style={{color: '#6BB0F5',}}>Forgot Password</Text>
-          </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Pressable 
-            titleSize={20} 
-            style={styles.button} 
-            onPress={console.log('work')}
-            >
-            <Text style={styles.buttonText}>Log In</Text>
-           </Pressable>
-           </TouchableOpacity>
-           <TouchableOpacity onPress={() => navigation.push('Home')}>
-          <Pressable 
-            titleSize={20} 
-            style={{backgroundColor: 'grey', alignItems: 'center', marginTop:5}} 
-            onPress={console.log('work')}
-            >
-            <Text style={styles.buttonText}>Continue As Guest</Text>
-           </Pressable>
-           </TouchableOpacity>
-           <View style={styles.signupContainer}>
-                <Text>Don't Have an account?</Text>
-                <TouchableOpacity onPress={() => navigation.push('SignupScreen')}>
-                    <Text style={{color:'blue'}}> Sign Up</Text>
-                </TouchableOpacity>
-           </View>     
-        </View>
-    )
-}
+        //TODO: Have a modal pop up to input the rest of the information, using that add it to the info saved in the db, and add all that to a object and store it in singleton
+        //Notes for logging out
+        //Call the signOut funtion ... signOut(auth).then(() => { UserSingleton.deleteUserObject(); navigation.navigate("Login Screen")}).catch((error) => { console.log("message: ",error)});
+
+
+        UserSingleton.getUserObject(userCredentials.user);
+        navigation.navigate("Asian");
+      })
+      .catch((error) => {
+        console.log("Message:", error.message);
+      });
+  };
+  const handleLogIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        let user = getInfo(userCredentials);
+        //get the info from the db and save it to singleton
+
+        // Append the information from getting the profile to userCredentials.user and save it to singleton
+        //this gets the user info after it is set
+        UserSingleton.getUserObject(user);
+
+        //do db call to get user profile info
+        navigation.navigate("Asian");
+      })
+      .catch((error) => {
+        console.log("Message:", error.message);
+      });
+  };
+
+  return (
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+          styles={styles.input}
+        />
+        <TextInput
+          placeholder="Password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+          styles={styles.input}
+          secureTextEntry
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            handleLogIn();
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleSignUp();
+          }}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Create Account</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+  );
+};
+
+export default LoginForm;
 
 const styles = StyleSheet.create({
-    
-    wrapper:{
-        marginTop: -115,
-    },
-    
-    inputField:{
-        borderRadius: 4,
-        padding: 12,
-        backgroundColor: '#FAFAFA',
-        borderWidth: 1,
-        marginBottom: 15,
-        marginLeft:5,
-        marginRight:5
-       
-    },
-    button:{
-        backgroundColor: '#0096F6', 
-        alignItems: 'center',
-        minHeight: 42,
-        borderRadius: 4,
-    },
-    buttonText:{
-        fontWeight: '600',
-        color: '#fff',
-        fontSize: 20,
-    },
-    signupContainer:{
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent:'center',
-        marginTop: 40
-
-    },
-})
-
-export default LoginForm
+  container: {
+    //flex:1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputContainer: {
+    width: "80%",
+  },
+  input: {
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+  },
+  buttonContainer: {
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 40,
+  },
+  button: {
+    backgroundColor: "#291B25",
+    width: "100%",
+    padding: 15,
+    borderRadius: 10,
+  },
+  buttonOutline: {
+    backgroundColor: "white",
+    marginTop: 5,
+    borderColor: "#F48400",
+    borderWidth: 2,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  buttonOutlineText: {
+    color: "#291B25",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+});

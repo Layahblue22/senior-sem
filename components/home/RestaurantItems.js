@@ -99,9 +99,9 @@ const RestaurantInfo = (props) => (
     </View>
     <View
       style={{
-        backgroundColor: "#eee",
+        backgroundColor: "#F48400",
         height: 30,
-        width: 30,
+        width: 40,
         alignItems: "center",
         borderRadius: 15,
         justifyContent: "center",
