@@ -2,27 +2,27 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
-import HeaderTabs from "../components/home/HeaderTabs";
-import BottomTabs from "../components/home/BottomTabs";
+import HeaderTabs from "../../components/home/HeaderTabs";
+import BottomTabs from "../../components/home/BottomTabs";
 import { Divider } from "react-native-elements";
-import SearchBar from "../components/home/SearchBar";
-import Categories from "../components/home/Categories";
+import SearchBar from "../../components/home/SearchBar";
+import Categories from "../../components/home/Categories";
 import RestaurantItems, {
   localRestaurant,
-} from "../components/home/RestaurantItems";
-import MenuItems from "../components/home/restaurantsDetail/MenuItems";
+} from "../../components/home/RestaurantItems";
+import MenuItems from "../../components/home/restaurantsDetail/MenuItems";
 
 const YELP_API_KEY =
   "xzEdzz9IlkirgIp46AwoheO-AWjZEb89wkwcGrlwNCFvVsAQ2LCRTHQ4iACLNEm5hg1l_oJxM8qun6AbN8lfeV1SRDSX7SakPiUh4F5uPVC42Kz4XkgKE5rCx2n0Y3Yx";
 
-export default function Home({ navigation }) {
+export default function IceCream({ navigation }) {
   const [restaurantData, setrestaurantData] = useState(localRestaurant);
   const [city, setCity] = useState("Frederick");
   const [activeTab, setActiveTab] = useState("Delivery");
   const [c_reviews, setc_reviews] = useState("Reviews");
   const [category, setCategory] = useState("Chinese");
   const getRestaurantsFromYelp = () => {
-    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&categories=mexican&location=${city}`;
+    const yelpURL = `https://api.yelp.com/v3/businesses/search?term=restaurants&categories=icecream&location=${city}`;
 
     const apiOptions = {
       headers: {
@@ -55,6 +55,7 @@ export default function Home({ navigation }) {
           restaurantData={restaurantData}
           navigation={navigation}
         />
+        
       </ScrollView>
       <Divider width={1} />
       <BottomTabs />

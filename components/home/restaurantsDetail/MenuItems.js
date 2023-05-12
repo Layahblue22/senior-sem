@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
   },
+  
 });
 
 // MenuItems is a function that returns a component

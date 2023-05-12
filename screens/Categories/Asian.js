@@ -55,7 +55,6 @@ export default function Asian({ navigation }) {
           restaurantData={restaurantData}
           navigation={navigation}
         />
-        <MenuItems c_reviews={c_reviews}/>
       </ScrollView>
       <Divider width={1} />
       <BottomTabs />
