@@ -30,18 +30,37 @@ const LoginForm = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         //add document into collection
-        setDoc(doc(db, "Profiles", userCredentials.user.uid), {
-          uid: userCredentials.user.uid,
-          email: userCredentials.user.email,
-        });
+        fetch('http://127.0.0.1:5000/createProfile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            uid: userCredentials.user.uid,
+            email: userCredentials.user.email
+          })
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            console.log(response.json)
+            return response.json();
+          })
+          .then(data => {
+            console.log(data);
+          })
+          .catch(error => {
+            console.error('There was a problem with the API request:', error);
+          });
 
         //TODO: Have a modal pop up to input the rest of the information, using that add it to the info saved in the db, and add all that to a object and store it in singleton
         //Notes for logging out
         //Call the signOut funtion ... signOut(auth).then(() => { UserSingleton.deleteUserObject(); navigation.navigate("Login Screen")}).catch((error) => { console.log("message: ",error)});
 
 
-        UserSingleton.getUserObject(userCredentials.user);
-        navigation.navigate("Asian");
+        const user = userCredentials.user
+        navigation.navigate("ProfileScreen");
       })
       .catch((error) => {
         console.log("Message:", error.message);
@@ -58,7 +77,7 @@ const LoginForm = () => {
         UserSingleton.getUserObject(user);
 
         //do db call to get user profile info
-        navigation.navigate("Asian");
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log("Message:", error.message);
@@ -100,6 +119,7 @@ const LoginForm = () => {
         >
           <Text style={styles.buttonOutlineText}>Create Account</Text>
         </TouchableOpacity>
+        
       </View>
     </KeyboardAvoidingView>
   );

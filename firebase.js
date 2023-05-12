@@ -4,13 +4,13 @@ import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDQ66K6dB2IGwMzof1EReASv4MNzP1ImhQ",
-  authDomain: "senior-sem-8bb90.firebaseapp.com",
-  databaseURL: "https://senior-sem-8bb90-default-rtdb.firebaseio.com",
-  projectId: "senior-sem-8bb90",
-  storageBucket: "senior-sem-8bb90.appspot.com",
-  messagingSenderId: "410173173663",
-  appId: "1:410173173663:web:51bfe53e67377b0b3457aa"
+  apiKey: "AIzaSyAqhlELfqqa_MfUfjBSiOxqYf9ngZQ-a_s",
+  authDomain: "test-e0ed4.firebaseapp.com",
+  databaseURL: "https://test-e0ed4-default-rtdb.firebaseio.com",
+  projectId: "test-e0ed4",
+  storageBucket: "test-e0ed4.appspot.com",
+  messagingSenderId: "579624731270",
+  appId: "1:579624731270:web:9fd2c47121f78987bf8707"
 };
 
 // Initialize Firebase
